@@ -1,3 +1,4 @@
+#flask #reactjs #gemini2.5-pro latest
 Follow the steps below to run the IntelliDoc application:
 
 🖥️ Backend Setup (Python)
