@@ -1,0 +1,117 @@
+# Document Processing API with Gemini
+
+This Python Flask API allows users to upload document files (PDF, DOCX, TXT, MD, JSON, CSV), extract their text content, and generate a summary and title using the Google Gemini 1.5 Pro model.
+
+## Features
+
+* **Document Upload:** Accepts `POST` requests with a file.
+* **Text Extraction:** Extracts text from various document formats (PDF, DOCX, TXT, MD, JSON, CSV).
+* **AI-Powered Summary and Title Generation:** Utilizes the Google Gemini 1.5 Pro model to generate a concise summary (2-3 sentences) and a suitable title for the document.
+* **CORS Enabled:** Allows cross-origin requests, making it suitable for integration with frontend applications.
+
+## Technologies Used
+
+* **Python:** Programming language.
+* **Flask:** Micro web framework for building the API.
+* **Flask-CORS:** For enabling Cross-Origin Resource Sharing.
+* **google-generativeai:** Google's Generative AI library for accessing Gemini models.
+* **python-docx:** For reading `.docx` files.
+* **PyPDF2:** For reading `.pdf` files.
+* **configparser:** For reading configuration files (to store the Gemini API key).
+
+## Backend Setup
+
+1.  **Prerequisites:**
+    * Python 3.6 or higher.
+    * pip package installer.
+
+2.  **Clone the repository (if applicable) or create the following files:**
+    * `app.py` (the Python Flask application code provided)
+    * `config.ini` (configuration file)
+    * `requirements.txt` (list of Python dependencies)
+
+3.  **Create `config.ini`:**
+    In the same directory as `app.py`, create a file named `config.ini` with the following content:
+
+    ```ini
+    [API]
+    GEMINI_KEY=YOUR_GEMINI_API_KEY
+    ```
+
+    Replace `YOUR_GEMINI_API_KEY` with your actual Google Gemini API key. You can obtain one from the [Google Cloud AI Platform](https://console.cloud.google.com/vertex-ai/generative/language).
+
+4.  **Create `requirements.txt`:**
+    In the same directory as `app.py`, create a file named `requirements.txt` with the following content based on the provided package list:
+
+    ```
+    google-generativeai==0.8.4
+    Flask==3.1.0
+    flask-cors==5.0.1
+    python-docx==1.1.2
+    PyPDF2==3.0.1
+    pyttsx3==2.98
+    configparser
+    ```
+
+    *Note: The provided package list includes many other libraries that are not directly used in the provided `app.py` code. This `requirements.txt` includes only the packages that are explicitly imported and used in the script.*
+
+5.  **Install dependencies:**
+    Open your terminal or command prompt, navigate to the directory containing `requirements.txt`, and run the following command:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Running the API
+
+1.  **Navigate to the project directory** in your terminal.
+
+2.  **Run the Flask application:**
+
+    ```bash
+    python app.py
+    ```
+
+    This will start the development server, usually accessible at `http://127.0.0.1:5000/` or `http://localhost:5000/`. The `debug=True` setting will enable debugging output and automatic reloading upon code changes (for development purposes).
+
+## API Endpoint
+
+### `/api/process_document`
+
+* **Method:** `POST`
+* **Content-Type:** `multipart/form-data`
+* **Request Body:** Requires a file to be uploaded with the field name `file`.
+* **Response (JSON):**
+    * **Success (HTTP 200):**
+        ```json
+        {
+            "extracted_text": "...",
+            "summary_and_title": "..."
+        }
+        ```
+        * `extracted_text`: The extracted text content from the uploaded file.
+        * `summary_and_title`: The AI-generated title and summary of the document.
+    * **Error (HTTP 400 or 500):**
+        ```json
+        {
+            "error": "Error message describing the issue"
+        }
+        ```
+
+## Usage
+
+You can interact with this API by sending a `POST` request to the `/api/process_document` endpoint with the document file attached in the `file` field. This can be done using tools like `curl`, Postman, or directly from a frontend web application using JavaScript's `fetch` API or libraries like Axios.
+
+## Important Notes
+
+* **Gemini API Key:** Ensure you have a valid Google Gemini API key and have placed it correctly in the `config.ini` file.
+* **File Size Limits:** Be mindful of potential file size limitations when uploading documents. The Gemini API might also have input token limits. The current implementation in `app.py` truncates the text to the first 1000 characters before sending it to Gemini for summary and title generation. You might need to adjust this based on your needs and the capabilities of the Gemini model.
+* **Error Handling:** The API includes basic error handling, but you might want to enhance it for production use.
+* **Text-to-Speech (pyttsx3):** While `pyttsx3` is imported, it is not currently used in the provided API endpoint. If you intend to add text-to-speech functionality, you would need to implement a new endpoint or modify the existing one to utilize this library.
+
+## License
+
+[Specify your license here, e.g., MIT License]
+
+
+===========================================Sundar Manikandan====================================================================
